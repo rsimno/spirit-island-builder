@@ -1,6 +1,16 @@
 function startMain() {
   console.log("Start Main cards");
 
+  //Set language
+  const spiritLanguageHTML = document.querySelectorAll("spirit-language")[0];
+  if (spiritLanguageHTML) {
+    console.log("SPIRIT LANGUAGE IS '"+spiritLanguageHTML.innerHTML+"'");
+    document.documentElement.lang=spiritLanguageHTML.innerHTML;
+  }
+  else {
+    document.documentElement.lang="en";
+  }
+
   var quickCards = document.querySelectorAll("quick-card");
 
   let cardIndex = 0;

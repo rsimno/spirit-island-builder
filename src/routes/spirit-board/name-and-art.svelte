@@ -142,4 +142,23 @@
     <button class="button is-warning is-light is-small row-button" on:click={hideAllTexts}
       >Click to Remove Unchangeable Text</button>
   </div>
+
+  <!-- Language -->
+  <label class="label mb-0" for="spiritLanguageInput">Language</label>
+  <label class="label is-small " for="spiritLanguageInput"
+    >(leave Overwrite Headings empty)</label>
+  <div class="is-flex is-flex-direction-row is-flex-wrap-nowrap pb-4">
+    <div class="field pr-2" style="width:30%;">
+      <label class="label is-small" for="customHeadingSR">Language: </label>
+    </div>
+    <div class="control" style="width:70%;">
+      <input
+        id="customHeadingSR"
+        class="input is-small"
+        type="text"
+        placeholder="en/de"
+        bind:value={spiritBoard.spiritLanguage} />
+    </div>
+  </div>
+
 </Section>

@@ -47,6 +47,7 @@
 
     const loreBoardHTML = document.createElement("board");
     fragment.append(loreBoardHTML);
+    loreBoardHTML.setAttribute("spirit-language", spiritBoardBack.spiritLanguage);
 
     //Set Spirit Image
     const loreImage = document.createElement("img");
@@ -143,6 +144,8 @@
     console.log("Loading spirit lore board into form (f=readHTML)");
     //Reads the Template HTML file into the Form
     const loreBoardHTML = htmlElement.querySelectorAll("board")[0];
+
+    spiritBoardBack.spiritLanguage = loreBoardHTML.getAttribute("spirit-language");
 
     //Set Spirit Name
     const loreName = loreBoardHTML.querySelectorAll("spirit-name")[0];

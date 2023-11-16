@@ -9,6 +9,18 @@ async function startMain() {
   console.log("Spirit Board startMain");
   if (document.getElementsByTagName("board")[0]) {
     console.log("CREATING SPIRIT BOARD");
+
+    const board = document.querySelectorAll("board")[0];
+
+    //Set language
+    if(board.getAttribute("spirit-language")) {
+      console.log("SPIRIT BOARD LANGUAGE IS '"+board.getAttribute("spirit-language")+"'");
+      document.documentElement.lang=board.getAttribute("spirit-language");
+    }
+    else {
+      document.documentElement.lang="en";
+    }
+
     setupCustomIcons();
 
     buildGrowthPanel();
@@ -23,7 +35,6 @@ async function startMain() {
 
     parseSpecialRules();
 
-    const board = document.querySelectorAll("board")[0];
     const html = board.innerHTML;
     board.innerHTML = replaceIcon(html);
 

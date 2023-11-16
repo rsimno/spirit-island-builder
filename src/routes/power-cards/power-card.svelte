@@ -470,6 +470,19 @@
         bind:value={powerCards.spiritName} />
     </div>
   </div>
+  <!-- Language -->
+  <div class="field has-addons mr-3 ml-1">
+    <label class="label is-unselectable mr-1" for="">Language: </label>
+    <div class="control">
+      <input
+        id="spiritLanguage"
+        class="input is-small"
+        type="text"
+        style="min-width:20rem"
+        placeholder="en/de"
+        bind:value={powerCards.spiritLanguage} />
+    </div>
+  </div>
 </div>
 <Section title={`Card Back`} bind:isVisible={powerCards.cardBackImageIsVisible}>
   <ImageInput

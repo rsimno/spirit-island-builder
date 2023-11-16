@@ -1,6 +1,17 @@
 function startMain() {
-  var html = document.querySelectorAll("board")[0].innerHTML;
-  document.querySelectorAll("board")[0].innerHTML = replaceIcon(html);
+  const loreBoardHTML = document.querySelectorAll("board")[0];
+  var html = loreBoardHTML.innerHTML;
+
+  //Set language
+  if(loreBoardHTML.getAttribute("spirit-language")) {
+    console.log("SPIRIT BOARD LANGUAGE IS '"+loreBoardHTML.getAttribute("spirit-language")+"'");
+    document.documentElement.lang=loreBoardHTML.getAttribute("spirit-language");
+  }
+  else {
+    document.documentElement.lang="en";
+  }
+
+  loreBoardHTML.innerHTML = replaceIcon(html);
   adjustComplexityValue();
   createPowerProperties();
   var setup = document.querySelectorAll("setup-description")[0];

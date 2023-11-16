@@ -46,4 +46,14 @@
         bind:value={spiritBoardBack.lore.loreText} />
     </div>
   </div>
+  <!-- Language -->
+  <label class="label mb-0" for="spiritLanguageInput">Language</label>
+  <div class="control" style="width:70%;">
+    <input
+      id="customHeadingSR"
+      class="input is-small"
+      type="text"
+      placeholder="en/de"
+      bind:value={spiritBoardBack.spiritLanguage} />
+  </div>
 </Section>

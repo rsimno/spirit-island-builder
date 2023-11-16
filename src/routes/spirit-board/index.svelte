@@ -107,6 +107,7 @@
     board.setAttribute("spirit-image-scale", spiritBoard.nameAndArt.artScale);
     board.setAttribute("spirit-border", spiritBoard.nameAndArt.bannerPath);
     board.setAttribute("clickable-GUI", spiritBoard.isClickable);
+    board.setAttribute("spirit-language", spiritBoard.spiritLanguage);
 
     //Set Spirit Name and Image
     const spiritName = document.createElement("spirit-name");
@@ -334,6 +335,8 @@
     if (artistName) {
       spiritBoard.nameAndArt.artistCredit = artistName.textContent.trim();
     }
+
+    spiritBoard.spiritLanguage = board.getAttribute("spirit-language");
 
     //Load Special Rules
     const specialRulesBlock = htmlElement.querySelectorAll("special-rules-container")[0];

@@ -99,6 +99,13 @@
       spiritName.innerHTML = powerCards.spiritName;
     }
 
+    //Add spirit languages
+    if (powerCards.spiritLanguage) {
+      let spiritLanguage = document.createElement("spirit-language");
+      fragment.append(spiritLanguage);
+      spiritLanguage.innerHTML = powerCards.spiritLanguage;
+    }
+
     //Set Custom Icons
     const spiritStyle = document.createElement("style");
     fragment.prepend(spiritStyle);
@@ -165,6 +172,13 @@
     const spiritNameHTML = htmlElement.querySelectorAll("spirit-name")[0];
     if (spiritNameHTML) {
       powerCards.spiritName = spiritNameHTML.innerHTML;
+    }
+    const spiritLanguageHTML = htmlElement.querySelectorAll("spirit-language")[0];
+    if (spiritLanguageHTML) {
+      powerCards.spiritLanguage = spiritLanguageHTML.innerHTML;
+    }
+    else {
+      powerCards.spiritLanguage = null;
     }
   }
 
