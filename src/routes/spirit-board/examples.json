@@ -207,5 +207,14 @@
         "url": "/template/MyCustomContent/MySpirit/EXAMPLE_tokens.html"
       }
     ]
+  },
+  {
+    "title": "Other Languages",
+    "examples": [
+      {
+        "name": "Verwesung erneuert die Erde",
+        "url": "/template/MyCustomContent/MySpirit/de/Verwesung_erneuert_die_Erde_SpiritBoard.html"
+      }
+    ]
   }
 ]

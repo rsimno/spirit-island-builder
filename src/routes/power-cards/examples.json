@@ -13,7 +13,12 @@
       {
         "name": "Shifting Memory",
         "url": "/template/MyCustomContent/MyPowerCard/ShiftingMemory_PowerCards.html"
+      },
+      {
+        "name": "de.Verwesung erneuert die Erde",
+        "url": "/template/MyCustomContent/MyPowerCard/de/Verwesung_erneuert_die_Erde_PowerCards.html"
       }
+      
     ]
   }
 ]
