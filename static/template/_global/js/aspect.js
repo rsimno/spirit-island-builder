@@ -94,12 +94,13 @@ function parseInnatePowerAspect(innatePowerHTML) {
 
   //Innate Power Speed and Range Header
   currentPowerHTML +=
-    "<info-title-speed>SPEED</info-title-speed><info-title-range>RANGE</info-title-range>";
+    "<info-title-speed>"+translate_text("speed").toUpperCase()+"</info-title-speed>" + 
+    "<info-title-range>"+translate_text("range").toUpperCase()+"</info-title-range>";
 
   //Innate Power Target Header
   currentPowerHTML +=
     "<info-title-target>" +
-    innatePowerHTML.getAttribute("target-title") +
+    translate_text(innatePowerHTML.getAttribute("target-title").toLowerCase()).toUpperCase() +
     "</info-title-target></info-title><innate-info>";
 
   //Innater Power Speed value

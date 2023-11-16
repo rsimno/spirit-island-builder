@@ -268,3 +268,11 @@ icon.push > icon.backslash {
 icon.blank75 {
   width: 75px;
 }
+
+icon.range-any:lang(de) {
+  background-image: url("../../images/board/de/presence_range_any.png");
+}
+
+icon.invaders:lang(de) {
+  background-image: url("../../images/board/de/invaders.png");
+}

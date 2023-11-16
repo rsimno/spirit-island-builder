@@ -583,3 +583,51 @@ icon-count {
   display: inline-block;
   margin-right: 2px;
 }
+
+
+icon.any:lang(de) { background-image: url("../images/de/board/Any.png"); }
+/* 
+wetlands 245c54 66cbb6 S
+sands 9a711e d5b615 W
+jungle 1d6434 27963c D
+mountain 656263 918f90 B
+*/
+icon.jungle:lang(de) { background-image: url("../images/de/board/jungle.png"); }
+icon.mountain:lang(de) { background-image: url("../images/de/board/mountain.png"); }
+icon.sand:lang(de),
+icon.sands:lang(de) { background-image: url("../images/de/board/sand.png"); }
+icon.wetland:lang(de),
+icon.wetlands:lang(de) { background-image: url("../images/de/board/wetland.png"); }
+icon.jungle-presence:lang(de) { background-image: url("../images/de/board/jungle-presence.png"); }
+icon.mountain-presence:lang(de) { background-image: url("../images/de/board/mountain-presence.png"); }
+icon.sand-presence:lang(de),
+icon.sands-presence:lang(de) { background-image: url("../images/de/board/sands-presence.png"); }
+icon.wetland-presence:lang(de),
+icon.wetlands-presence:lang(de) { background-image: url("../images/de/board/wetland-presence.png"); }
+
+icon.jungle-sand:lang(de),
+icon.jungle-sands:lang(de),
+icon.sand-jungle:lang(de),
+icon.sands-jungle:lang(de) { background-image: url("../images/de/board/junglesand.png"); }
+icon.jungle-wetland:lang(de),
+icon.jungle-wetlands:lang(de),
+icon.wetland-jungle:lang(de),
+icon.wetlands-jungle:lang(de) { background-image: url("../images/de/board/junglewetland.png"); }
+icon.jungle-mountain:lang(de), 
+icon.mountain-jungle:lang(de) { background-image: url("../images/de/board/mountainjungle.png"); }
+icon.mountain-sand:lang(de),
+icon.mountain-sands:lang(de),
+icon.sand-mountain:lang(de),
+icon.sands-mountain:lang(de) { background-image: url("../images/de/board/mountainsand.png"); }
+icon.mountain-wetland:lang(de),
+icon.mountain-wetlands:lang(de),
+icon.wetland-mountain:lang(de),
+icon.wetlands-mountain:lang(de) { background-image: url("../images/de/board/mountainwetland.png"); }
+icon.sand-wetland:lang(de),
+icon.sand-wetlands:lang(de),
+icon.sands-wetland:lang(de),
+icon.sands-wetlands:lang(de),
+icon.wetland-sand:lang(de),
+icon.wetlands-sand:lang(de),
+icon.wetland-sands:lang(de),
+icon.wetlands-sands:lang(de)  { background-image: url("../images/de/board/sandwetland.png"); }

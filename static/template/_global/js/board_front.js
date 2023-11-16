@@ -108,7 +108,8 @@ function buildGrowthPanel() {
     ? ` customName="${growthHTML[0].getAttribute("customname")}"`
     : "";
 
-  const growthTitle = `<section-title${customNameText}>${growthHTML[0].title}</section-title>`;
+    // const growthTitle = `<section-title${customNameText}>${growthHTML[0].title}</section-title>`;
+  const growthTitle = `<section-title${customNameText}>${translate_text(growthHTML[0].title.slice(0,6))+growthHTML[0].title.slice(6)}</section-title>`;
 
   const subList = Array.from(growthHTML[0].getElementsByTagName("sub-growth"));
   let subTitle = subList
@@ -398,7 +399,7 @@ function getGrowthActionTextAndIcons(growthAction) {
                 "<icon class='reclaim-element " +
                 reclaimModifiersOrText +
                 "'></icon></icon>";
-              reclaimText = "Reclaim All Cards with " + Capitalise(reclaimModifiersOrText);
+              reclaimText = translate_text("Reclaim All Cards with %", [translate_text(Capitalise(reclaimModifiersOrText))]);
             }
             break;
           case "one":
@@ -410,7 +411,7 @@ function getGrowthActionTextAndIcons(growthAction) {
                 "<icon class='reclaim-element " +
                 reclaimModifiersOrText +
                 "'></icon></icon>";
-              reclaimText = "Reclaim One Card with " + Capitalise(reclaimModifiersOrText);
+              reclaimText = translate_text("Reclaim One Card with %", [translate_text(Capitalise(reclaimModifiersOrText))]);
             } else {
               reclaimIcon = "{reclaim-" + reclaimType + "}";
               reclaimText = IconName("reclaim-" + reclaimType);
@@ -426,7 +427,7 @@ function getGrowthActionTextAndIcons(growthAction) {
             break;
           case "custom":
             reclaimIcon = "{reclaim-" + reclaimType + "}";
-            reclaimText = "Reclaim " + reclaimModifiersOrText;
+            reclaimText = translate_text("Reclaim %", [reclaimModifiersOrText]);
             break;
           default:
             reclaimText = "TEXT NOT RECOGNIZED - use 'all','one',or 'custom'";
@@ -438,7 +439,7 @@ function getGrowthActionTextAndIcons(growthAction) {
     }
     case "gain-card-pay-2": {
       growthIcons = "<custom-icon>{" + growthActionType + "}</custom-icon>";
-      growthText = "You may Pay 2 Energy to Gain a Power Card";
+      growthText = translate_text("You may Pay 2 Energy to Gain a Power Card");
       break;
     }
     case "gain-power-card": {
@@ -454,7 +455,7 @@ function getGrowthActionTextAndIcons(growthAction) {
         switch (gainPowerCardType) {
           case "minor":
             gainPowerCardIcon += "<icon class='minor gain-card-modifier'></icon>";
-            gainPowerCardText = "Gain Minor Power Card";
+            gainPowerCardText = translate_text("Gain Minor Power Card");
             // if(gainPCModifiersOrText){
             // gainPowerCardIcon = "<icon class='reclaim-"+gainPowerCardType+"'>"+"<icon class='reclaim-element "+gainPCModifiersOrText+"'></icon></icon>"
             // gainPowerCardText = 'Reclaim All Cards with '+Capitalise(gainPCModifiersOrText)
@@ -462,12 +463,12 @@ function getGrowthActionTextAndIcons(growthAction) {
             break;
           case "major":
             gainPowerCardIcon += "<icon class='major gain-card-modifier'></icon>";
-            gainPowerCardText = "Gain Major Power Card";
+            gainPowerCardText = translate_text("Gain Major Power Card");
             break;
           default:
             gainPowerCardIcon +=
               "<icon class='" + gainPowerCardType.toLowerCase() + " gain-card-modifier'></icon>";
-            gainPowerCardText = "Gain " + Capitalise(gainPowerCardType) + " Power Card";
+            gainPowerCardText = translate_text("Gain % Power Card", [Capitalise(gainPowerCardType)]);
         }
         if (gainPCModifierIcon) {
           gainPowerCardIcon +=
@@ -485,7 +486,7 @@ function getGrowthActionTextAndIcons(growthAction) {
     case "isolate": {
       const matches = regExp.exec(growthAction);
       let isolateIcons = "{isolate}";
-      let isolateText = "Isolate 1 of Your Lands";
+      let isolateText = translate_text("Isolate 1 of Your Lands");
       let isolateReqOpen = "";
       let isolateReqClose = "";
       if (matches) {
@@ -494,7 +495,7 @@ function getGrowthActionTextAndIcons(growthAction) {
         isolateReqOpen = "<custom-icon>";
         isolateReqClose = "</custom-icon>";
         isolateIcons += "<range-growth><value>" + isolateRange + "</value></range-growth>";
-        isolateText = "Isolate a Land";
+        isolateText = translate_text("Isolate a Land");
       }
       growthIcons = isolateReqOpen + isolateIcons + isolateReqClose;
       growthText = isolateText;
@@ -512,7 +513,7 @@ function getGrowthActionTextAndIcons(growthAction) {
         "<range-growth><value>" +
         range +
         "</value></range-growth></custom-icon>";
-      growthText = "Deal " + damage + " Damage at Range " + range;
+      growthText = translate_text("Deal % Damage at Range %", [damage, range]);
       break;
     }
     case "gain-energy": {
@@ -527,6 +528,7 @@ function getGrowthActionTextAndIcons(growthAction) {
       }
       let energyGrowthIcons = "";
       let energyGrowthText = "";
+      let energyGrothParams = [];
       let x_is_num = !isNaN(energyOptions[0]);
       let x_is_zero = energyOptions[0] === 0;
       let x_is_text = energyOptions[0] === "text";
@@ -557,9 +559,9 @@ function getGrowthActionTextAndIcons(growthAction) {
       if (x_is_flat) {
         energyGrowthIcons = "<growth-energy><value>" + flatEnergy + "</value></growth-energy>";
         if (scaling_entity) {
-          energyGrowthText = "Gain " + flatEnergy + " Energy";
+          energyGrowthText = translate_text("Gain % Energy", [flatEnergy]);
         } else {
-          energyGrowthText = "Gain Energy";
+          energyGrowthText = translate_text("Gain Energy");
         }
       }
 
@@ -568,13 +570,12 @@ function getGrowthActionTextAndIcons(growthAction) {
         energyGrowthIcons += "<gain-per><value>" + scaling_value + "</value></gain-per>";
         energyGrowthIcons +=
           "<gain-per-element><ring-icon>" + customScalingIcon + "</ring-icon></gain-per-element>";
+        let temp = has_custom_text ? custom_text : translate_text(Capitalise(scaling_entity));
         if (x_is_flat) {
-          energyGrowthText += " and +" + scaling_value + " more per ";
+          energyGrowthText += translate_text(" and +% more per %"+elementNames.has(scaling_entity) ? " Showing":"", [scaling_value, temp]);
         } else {
-          energyGrowthText += "Gain " + scaling_value + " Energy per ";
+          energyGrowthText += translate_text("Gain % Energy per %"+elementNames.has(scaling_entity) ? " Showing":"", [scaling_value, temp]);
         }
-        energyGrowthText += has_custom_text ? custom_text : Capitalise(scaling_entity);
-        energyGrowthText += elementNames.has(scaling_entity) ? " Showing" : "";
       }
       growthIcons = energyManyIconOpen + energyGrowthIcons + energyManyIconClose;
       growthText = energyGrowthText;
@@ -656,8 +657,7 @@ function getGrowthActionTextAndIcons(growthAction) {
             operator = " " + presenceOptions.at(-1) + " ";
           }
 
-          presenceText += " to ";
-          presenceText += presenceRange === "any" ? "any " : "";
+          presenceText += translate_text(" to " + (presenceRange === "any" ? "any " : ""));
 
           let flag = 0; // This flag is used to figure out if 'land with' has been said already. It comes up with add-presence(3,jungle,beasts,or)
           let and_flag = 0;
@@ -700,8 +700,10 @@ function getGrowthActionTextAndIcons(growthAction) {
             const multiLandCheck = presenceReq.split("-");
             let multiLandText;
             if (terrains.has(multiLandCheck[1])) {
-              multiLandText =
-                Capitalise(multiLandCheck[0]) + " or " + Capitalise(multiLandCheck[1]);
+              multiLandText =  
+                translate_text(Capitalise(multiLandCheck[0])) 
+                + translate_text(" or ")
+                + translate_text(Capitalise(multiLandCheck[1]));
               presenceReq = "multiland";
             }
 
@@ -716,13 +718,13 @@ function getGrowthActionTextAndIcons(growthAction) {
               case "jungle":
               case "ocean":
                 presenceText += i !== 1 ? operator : "";
-                presenceText += Capitalise(presenceReq);
+                presenceText += translate_text(Capitalise(presenceReq));
                 and_flag = 1;
                 break;
               case "inland":
               case "coastal":
                 presenceText += i !== 1 ? operator : "";
-                presenceText += Capitalise(presenceReq) + " land";
+                presenceText += translate_text(Capitalise(presenceReq) + " land");
                 break;
               case "multiland":
                 presenceText += multiLandText;
@@ -730,9 +732,9 @@ function getGrowthActionTextAndIcons(growthAction) {
                 break;
               case "no-blight":
                 if (i === 1) {
-                  presenceText += " Land without ";
+                  presenceText += translate_text(" Land without ");
                 } else {
-                  presenceText += operator === " and " ? " and no " : " or no ";
+                  presenceText += translate_text(operator === " and " ? " and no " : " or no ");
                 }
                 presenceText += "Blight";
                 break;
@@ -741,29 +743,29 @@ function getGrowthActionTextAndIcons(growthAction) {
                 break;
               case "no-own-presence":
                 if (i === 1) {
-                  presenceText += " Land without ";
+                  presenceText += translate_text(" Land without ");
                 } else {
-                  presenceText += operator === " and " ? " and no " : " or no ";
+                  presenceText += translate_text(operator === " and " ? " and no " : " or no ");
                 }
-                presenceText += "Your Presence";
+                presenceText += translate_text("Your Presence");
                 break;
               case "presence":
-                presenceTextLead += presenceTextEnd === "" ? "Your " : "";
+                presenceTextLead += translate_text(presenceTextEnd === "" ? "Your " : "");
               // Intentionally fallthrough.
               default:
                 if (flag === 0 && i !== 1 && operator !== " and ") {
-                  presenceText += operator + "Land with ";
+                  presenceText += translate_text(operator) + translate_text("Land with ");
                 } else if (flag === 0 && operator !== " and ") {
-                  presenceText += " Land with ";
+                  presenceText += translate_text(" Land with ");
                 } else {
                   if (operator === " and " && flag !== 1) {
-                    presenceText += and_flag === 1 ? " with " : " Land with ";
+                    presenceText += translate_text(and_flag === 1 ? " with " : " Land with ");
                   } else {
-                    presenceText += operator;
+                    presenceText += translate_text(operator);
                   }
                 }
                 flag = 1;
-                presenceText += presenceTextLead + Capitalise(presenceReq) + presenceTextEnd;
+                presenceText += presenceTextLead + translate_text(Capitalise(presenceReq)) + presenceTextEnd;
             }
           }
         }
@@ -777,7 +779,7 @@ function getGrowthActionTextAndIcons(growthAction) {
         presenceRange +
         presenceRangeClose +
         presenceReqClose;
-      growthText = "Add a Presence" + presenceText;
+      growthText = translate_text("Add a Presence%", [presenceText]);
       break;
     }
     case "push":
@@ -808,30 +810,27 @@ function getGrowthActionTextAndIcons(growthAction) {
 
           // Text
           if (isNaN(moveNum)) {
-            moveText +=
+            moveText += translate_text(
               Capitalise(growthActionType) +
               " 1 " +
               Capitalise(moveTarget) +
               " " +
               preposition +
-              " " +
-              moveNum;
+              " % ", [moveNum]);
           } else {
-            moveText +=
+            moveText += translate_text(
               Capitalise(growthActionType) +
-              " " +
-              moveNum +
-              " " +
+              " % " +
               Capitalise(moveTarget) +
               " " +
-              preposition;
+              preposition, [moveNum]);
           }
           switch (moveCondition) {
             case "sacred-site":
               if (isNaN(moveNum)) {
-                moveText += " of";
+                moveText += translate_text(" of");
               }
-              moveText += " your Sacred Sites";
+              mmoveText += translate_text(" your Sacred Sites");
               moveIcons +=
                 "<push-gather><icon class='" +
                 growthActionType +
@@ -881,13 +880,13 @@ function getGrowthActionTextAndIcons(growthAction) {
                 " " +
                 preposition +
                 "'></icon></icon></push-gather>";
-              moveText += " " + Capitalise(moveCondition, plural);
+              moveText += " " + translate_text(Capitalise(moveCondition, plural));
               break;
             default:
               if (moveNum === 1) {
                 moveText += " 1";
               }
-              moveText += " of your Lands with " + Capitalise(moveCondition);
+              moveText += translate_text(" of your Lands with %", [translate_text(Capitalise(moveCondition))]);
               moveIcons +=
                 "<push-gather><icon class='" +
                 growthActionType +
@@ -912,13 +911,13 @@ function getGrowthActionTextAndIcons(growthAction) {
             "<range-growth><value>" +
             moveRange +
             "</value></range-growth></push-gather-range-req>";
-          moveText +=
+          moveText += translate_text(
             Capitalise(growthActionType) +
             " up to 1 " +
             Capitalise(moveTarget) +
             " " +
             preposition +
-            " a Land";
+            " a Land");
         }
       } else {
         moveIcons +=
@@ -927,13 +926,13 @@ function getGrowthActionTextAndIcons(growthAction) {
           "'>{" +
           moveTarget +
           "}</icon></push-gather>";
-        moveText +=
+        moveText += translate_text(
           Capitalise(growthActionType) +
           " 1 " +
           Capitalise(moveTarget) +
           " " +
           preposition +
-          ` 1 of your Lands`;
+          ` 1 of your Lands`);
       }
       growthIcons = moveIcons;
       growthText = moveText;
@@ -942,7 +941,7 @@ function getGrowthActionTextAndIcons(growthAction) {
     case "presence-no-range": {
       //This is potentially redundant.
       growthIcons = "<custom-presence-no-range>+{presence}</custom-presence-no-range>";
-      growthText = "Add a Presence to any Land";
+      growthText = translate_text("Add a Presence to any Land");
       break;
     }
     case "move-presence": {
@@ -957,7 +956,7 @@ function getGrowthActionTextAndIcons(growthAction) {
           "<custom-icon>{presence}<move-growth><value>" +
           moveRange +
           "</value></move-growth></custom-icon>";
-        moveText = "Move a Presence";
+        moveText = translate_text("Move a Presence");
       } else if (!isNaN(moveOptions[1])) {
         moveIcons = "<custom-icon><token-wrap>";
         for (let i = 0; i < moveOptions[1]; i++) {
@@ -965,7 +964,7 @@ function getGrowthActionTextAndIcons(growthAction) {
         }
         moveIcons +=
           "</token-wrap><move-growth><value>" + moveRange + "</value></move-growth></custom-icon>";
-        moveText = "Move up to " + moveOptions[1] + " Presence together";
+        moveText = translate_text("Move up to % Presence together", [moveOptions[1]]);
       }
 
       growthIcons = moveIcons;
@@ -992,13 +991,13 @@ function getGrowthActionTextAndIcons(growthAction) {
           }
           elementIcons += "</gain>";
           //Text
-          let elementText = "Gain ";
+          let elementText = translate_text("Gain ");
           for (let i = 0; i < elementOptions.length; i++) {
             elementText += IconName(elementOptions[i]);
             if (i < elementOptions.length - 2) {
               elementText += ", ";
             } else if (i === elementOptions.length - 2) {
-              elementText += " or ";
+              elementText += translate_text(" or ");
             }
           }
           growthIcons = elementIcons;
@@ -1017,7 +1016,7 @@ function getGrowthActionTextAndIcons(growthAction) {
               if (i < numLocs - 2) {
                 elementText += ", ";
               } else if (i === numLocs - 2) {
-                elementText += " and ";
+                elementText += translate_text(" and ");
               }
             }
           } else {
@@ -1053,11 +1052,11 @@ function getGrowthActionTextAndIcons(growthAction) {
           }
 
           growthIcons = "<gain>" + elementIcons + "</gain>";
-          growthText = "Gain " + elementText;
+          growthText = translate_text("Gain %", [elementText]);
         }
       } else {
         growthIcons = "<gain>{" + gainedElement + "}</gain>";
-        growthText = "Gain " + IconName(gainedElement);
+        growthText = translate_text("Gain %", [IconName(gainedElement)]);
       }
       break;
     }
@@ -1134,9 +1133,9 @@ function getGrowthActionTextAndIcons(growthAction) {
       if (x_is_flat) {
         fearGrowthIcons = "<growth-fear><value>" + flatFear + "</value></growth-fear>";
         if (scaling_entity) {
-          fearGrowthText = "Generate " + flatFear + " Fear";
+          fearGrowthText = translate_text("Generate % Fear", [flatFear]);
         } else {
-          fearGrowthText = "Generate Fear";
+          fearGrowthText = translate_text("Generate Fear");
         }
       }
 
@@ -1145,16 +1144,15 @@ function getGrowthActionTextAndIcons(growthAction) {
         fearGrowthIcons += "<fear-per><value>" + scaling_value + "</value></fear-per>";
         fearGrowthIcons +=
           "<gain-per-fear><ring-icon>" + customScalingIcon + "</ring-icon></gain-per-fear>";
+        temp = has_custom_text ? custom_text : Capitalise(scaling_entity);
         if (x_is_flat) {
-          fearGrowthText += " and +" + scaling_value + " more per ";
+          fearGrowthText += translate_text(" and +% more per %"+elementNames.has(scaling_entity) ? " Showing":"", [scaling_value, temp]);
         } else {
-          fearGrowthText += "Generate " + scaling_value + " Fear per ";
+          fearGrowthText += translate_text("Generate % Fear per %"+elementNames.has(scaling_entity) ? " Showing":"", [scaling_value, temp]);
         }
-        fearGrowthText += has_custom_text ? custom_text : Capitalise(scaling_entity);
-        fearGrowthText += elementNames.has(scaling_entity) ? " Showing" : "";
       }
       growthIcons = fearManyIconOpen + fearGrowthIcons + fearManyIconClose;
-      growthText = fearGrowthText;
+      growthText = translate_text(fearGrowthText);
       break;
     }
     case "gain-range": {
@@ -1167,24 +1165,24 @@ function getGrowthActionTextAndIcons(growthAction) {
         switch (type) {
           case "powers":
           case "power":
-            gainRangeText = "Your Powers gain +" + range + " Range this turn";
+            gainRangeText = translate_text("Your Powers gain +% Range this turn", [range]);
             break;
           case "power cards":
-            gainRangeText = "Your Power Cards gain +" + range + " Range this turn";
+            gainRangeText = translate_text("Your Power Cards gain +% Range this turn", [range]);
             break;
           case "everything":
-            gainRangeText = "+" + range + " Range on everything this turn";
+            gainRangeText = translate_text("+% Range on everything this turn", [range]);
             break;
           case "innate":
           case "innate power":
           case "innate powers":
-            gainRangeText = "Your Innate Powers gain +" + range + " Range this turn";
+            gainRangeText = translate_text("Your Innate Powers gain +% Range this turn", [range]);
             break;
           default:
-            gainRangeText = "Your Powers gain +" + range + " Range this turn";
+            gainRangeText = translate_text("Your Powers gain +% Range this turn", [range]);
         }
       } else {
-        gainRangeText = "Your Powers gain +" + range + " Range this turn";
+        gainRangeText = translate_text("Your Powers gain +% Range this turn", [range]);
       }
       growthIcons = "{gain-range-" + range + "}";
       growthText = gainRangeText;
@@ -1200,7 +1198,7 @@ function getGrowthActionTextAndIcons(growthAction) {
         const num_card_plays = cardplayOptions[0];
         const plural = num_card_plays > 1 ? "s" : "";
         growthIcons = "<card-play-num><value>" + num_card_plays + "</value></card-play-num>";
-        growthText = " +" + num_card_plays + " Card Play" + plural + " this turn";
+        growthText = translate_text(" +% Card Play"+plural+" this turn", [num_card_plays]);
       }
       break;
     }
@@ -1233,10 +1231,10 @@ function getGrowthActionTextAndIcons(growthAction) {
         markerIcons += "<icon style='width:0px;height:99px'></icon>"; // This is a filler icon to make sure the spacing is right. Any idea for a better solution?
 
         growthIcons = "<gain>" + markerIcons + "</gain>";
-        growthText = marker_verb + " " + num_markers + " Element Marker" + plural;
+        growthText = translate_text(marker_verb+" % Element Marker"+plural, [num_markers]);
       } else {
         growthIcons = "<gain>{markerplus}</gain>";
-        growthText = "Prepare 1 Element Marker";
+        growthText = translate_text("Prepare 1 Element Marker");
       }
       break;
     }
@@ -1254,11 +1252,11 @@ function getGrowthActionTextAndIcons(growthAction) {
             "<icon class='discard-card'><icon class='discard-element " +
             discardElement +
             "'></icon></icon>";
-          growthText = "Discard a Power Card with " + Capitalise(discardElement);
+          growthText = translate_text("Discard a Power Card with %", [Capitalise(discardElement)]);
         }
       } else {
         growthIcons = "{discard-card}";
-        growthText = "Discard a Card";
+        growthText = translate_text("Discard a Card");
       }
       break;
     }
@@ -1282,11 +1280,11 @@ function getGrowthActionTextAndIcons(growthAction) {
             "<move-growth>" +
             incarnaRangeOrToken +
             "</move-growth></custom-icon2>";
-          growthText = "Move Incarna";
+          growthText = translate_text("Move Incarna");
           break;
         case "empower":
           growthIcons = "{empower-incarna}";
-          growthText = "Empower Incarna";
+          growthText = translate_text("Empower Incarna");
           break;
         case "add-move":
           growthIcons =
@@ -1295,7 +1293,7 @@ function getGrowthActionTextAndIcons(growthAction) {
             '"></icon><icon class="' +
             incarnaRangeOrToken +
             ' with-your"></icon></add-move-lower></custom-icon>';
-          growthText = "Add/Move Incarna to Land with " + IconName(incarnaRangeOrToken);
+          growthText = translate_text("Add/Move Incarna to Land with %", [IconName(incarnaRangeOrToken)]);
           break;
         case "replace":
           growthIcons =
@@ -1304,7 +1302,7 @@ function getGrowthActionTextAndIcons(growthAction) {
             '"><icon class="replace-with-incarna no ' +
             incarnaRangeOrToken +
             '"></custom-icon>';
-          growthText = "You may Replace " + IconName(incarnaRangeOrToken) + " with your Incarna";
+          growthText = translate_text("You may Replace % with your Incarna", [IconName(incarnaRangeOrToken)]);
           break;
         case "add-token":
           growthIcons =
@@ -1313,7 +1311,7 @@ function getGrowthActionTextAndIcons(growthAction) {
             '"></add-token-upper><add-token-lower><icon class="incarna ' +
             customIncarnaIcon +
             '"><add-token-lower></custom-icon>';
-          growthText = "Add a " + IconName(incarnaRangeOrToken) + " at your Incarna";
+          growthText = translate_text("Add a % at your Incarna", [IconName(incarnaRangeOrToken)]);
           break;
         default:
       }
@@ -1332,7 +1330,7 @@ function getGrowthActionTextAndIcons(growthAction) {
       let tokenIcons = "";
       if (!tokenNum) {
         tokenIcons = "+<icon class='" + token + " token'></icon>";
-        tokenText = "Add a " + Capitalise(token);
+        tokenText = translate_text("Add a %", [IconName(token,1)]);
       } else if (!isNaN(tokenNum)) {
         // multiple of the same token
         tokenIcons += "+";
@@ -1343,21 +1341,22 @@ function getGrowthActionTextAndIcons(growthAction) {
             tokenIcons += "<icon class='" + token + " token'></icon>";
           }
         }
-        tokenText = "Add " + IconName(token, tokenNum) + " together";
+        tokenText = translate_text("Add % together", [IconName(token, tokenNum)]);
       } else {
         // two or more different tokens
         const operator = tokenOptions.at(-1);
         tokenIcons += "+<icon class='" + token + " token'></icon>";
-        tokenText += "Add a " + Capitalise(token);
+        tokenText += translate_text("Add a %", [IconName(token,1)]);
         if (operator === "and" || operator === "or") {
           for (let i = 2; i < tokenOptions.length - 1; i++) {
             tokenIcons += operator === "or" ? "/" : "";
             tokenIcons += "<icon class='" + tokenOptions[i] + " token'></icon>";
-            tokenText += i === tokenOptions.length - 2 ? " " + operator + " " : ", ";
-            tokenText += Capitalise(tokenOptions[i]);
+            tokenText += i === tokenOptions.length - 2 ? " " + translate_text(operator) + " " : ", ";
+            tokenText += translate_text(Capitalise(tokenOptions[i]));
+
           }
           if (operator === "and") {
-            tokenText += " together";
+            tokenText += translate_text(" together");
           }
         } else {
           tokenText = "MUST use AND or OR";
@@ -1391,11 +1390,10 @@ function getGrowthActionTextAndIcons(growthAction) {
           range +
           "</value></range-growth></custom-icon>";
         console.log(replaceIcons);
-        replaceText =
-          "You may Replace " +
-          IconName(replaceOptions[shift]) +
-          " with " +
-          IconName(replaceOptions[shift + 1]);
+        replaceText = translate_text(
+          "You may Replace % with %", 
+          [IconName(replaceOptions[shift]), 
+          IconName(replaceOptions[shift + 1])]);
         console.log(replaceText);
       } else {
         // Local replace
@@ -1405,11 +1403,9 @@ function getGrowthActionTextAndIcons(growthAction) {
           '"></icon>+<icon class="replace-with ' +
           replaceOptions[shift + 1] +
           '"></icon></replace-wrap></custom-icon>';
-        replaceText =
-          "You may Replace 1 " +
-          IconName(replaceOptions[shift]) +
-          " in your Lands with " +
-          IconName(replaceOptions[shift + 1]);
+          replaceText = translate_text("You may Replace 1 % in your Lands with %", [
+            IconName(replaceOptions[shift]),
+            IconName(replaceOptions[shift + 1])]);
       }
 
       growthIcons = replaceIcons;
@@ -1425,7 +1421,7 @@ function getGrowthActionTextAndIcons(growthAction) {
   //Handle Repeats
   if (repeatText) {
     growthIcons = "<repeat-wrapper>" + repeatOpen + growthIcons + "</repeat-wrapper>";
-    growthText = repeatText + growthText;
+    growthText = translate_text(repeatText + growthText); //###
   }
 
   return [growthIcons, growthText];
@@ -1442,7 +1438,7 @@ function setNewEnergyCardPlayTracks(energyHTML, cardPlayHTML) {
     : "";
 
   presenceTable.innerHTML =
-    `<presence-title><section-title${customNameText}>Presence</section-title></presence-title>` +
+  `<presence-title><section-title${customNameText}>`+Capitalise(translate_text("presence"))+`</section-title></presence-title>` +
     "<table id='presence-table'><tbody>" +
     energyHTML +
     cardPlayHTML +
@@ -1703,22 +1699,22 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
     if (nodeText.startsWith("energy")) {
       nodeText = nodeText.substr(6);
       nodeClass = "energy";
-      subText = "Energy/Turn";
+      subText = translate_text("Energy/Turn");
     } else if (nodeText.startsWith("+energy")) {
       nodeText = nodeText.replace("+energy", "+");
       nodeClass = "energy";
-      subText = "Energy/Turn";
+      subText = translate_text("Energy/Turn");
     } else if (nodeText.startsWith("card")) {
       nodeText = nodeText.substr(4);
       nodeClass = "card";
-      subText = "Card Plays";
+      subText = translate_text("Card Plays");
     }
   } else if (trackType === "energy") {
     nodeClass = "energy";
-    subText = "Energy/Turn";
+    subText = translate_text("Energy/Turn");
   } else if (trackType === "card") {
     nodeClass = "card";
-    subText = "Card Plays";
+    subText = translate_text("Card Plays");
   } else if (trackType === "special") {
     nodeClass = "special-ring";
     subText = "";
@@ -1734,7 +1730,7 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
     } else {
       subText = nodeText;
       if (isNaN(nodeText[0])) {
-        subText += " Energy";
+        subText = translate_text("% Energy", [nodeText]);
         nodeClass = "energy";
       }
     }
@@ -1794,7 +1790,7 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
             } else {
               moveIcons += "{incarna}";
             }
-            subText = Capitalise(option) + " Your Incarna";
+            subText = translate_text(Capitalise(option) + " Your Incarna");
           } else {
             for (let i = 0; i < moveTarget.split(";").length; i++) {
               moveIcons += "{" + moveTarget.split(";")[i] + "}";
@@ -1804,8 +1800,8 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
                 moveText += "/";
               }
             }
-            subText =
-              Capitalise(option) + " 1 " + moveText + " " + preposition + " 1 of your Lands";
+            subText = translate_text(
+              Capitalise(option) + " 1 " + moveText + " " + preposition + " 1 of your Lands");
           }
           moveIcons += "</div>";
           inner = "<icon class='push'>" + moveIcons + "</icon>";
@@ -1816,7 +1812,7 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
           const matches = regExp.exec(splitOptions[0]);
           const moveTarget = matches[1];
           inner = "<icon class='gather'><icon class='" + moveTarget + "'></icon></icon>";
-          subText = "Gather 1 " + Capitalise(moveTarget) + " into 1 of your Lands";
+          subText = translate_text("Gather 1 % into 1 of your Lands", [translate_text(Capitalise(moveTarget))]);
           break;
         }
         case "energy": {
@@ -1832,7 +1828,7 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
           const matches = regExp.exec(splitOptions[0]);
           const num = matches[1];
           inner = "<energy-icon><value>+" + num + "</value></energy-icon>";
-          subText = "+" + num + " Energy";
+          subText = translate_text("+% Energy", [num]);
           addEnergyRing = true;
           addIconShadow = false;
           break;
@@ -1851,11 +1847,11 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
           const incarnaAction = matches[1];
           switch (incarnaAction) {
             case "empower":
-              subText = "Empower Incarna";
+              subText = translate_text("Empower Incarna");
               inner = "{empower-incarna}";
               break;
             default:
-              subText = "Empower Incarna";
+              subText = translate_text("Empower Incarna");
               inner = "{empower-incarna}";
           }
           break;
@@ -1865,7 +1861,7 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
           const tokenAdd = matches[1];
           inner =
             "<icon class='your-land'>{misc-plus}<icon class='" + tokenAdd + "'></icon></icon>";
-          subText = "Add 1 " + Capitalise(tokenAdd) + " to 1 of your Lands";
+          subText = translate_text("Add 1 % to 1 of your Lands", [translate_text(Capitalise(tokenAdd))]);
           break;
         }
         case "custom": {
@@ -1901,13 +1897,13 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
               "<track-move-presence>{presence}<move-text>" +
               moveRange +
               "</move-text>{move-arrow}</track-move-presence>";
-            subText = "Move a Presence to " + moveRange + " land";
+            subText = translate_text("Move a Presence to % land", [moveRange]);
           } else {
             inner =
               "<track-move-presence>{presence}<move-value>" +
               moveRange +
               "</move-value>{move-arrow}</track-move-presence>";
-            subText = "Move a Presence " + moveRange;
+            subText = translate_text("Move a Presence %", [moveRange]);
           }
           addIconShadow = true;
           if (addEnergyRing) {
@@ -1926,10 +1922,10 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
             elementIcons += "{backslash}";
             elementIcons += "<icon class='" + elementList[1] + " presence-or-second'></icon>";
             elementText += Capitalise(elementList[0]);
-            elementText += " OR ";
+            elementText += translate_text(" OR ");
             elementText += Capitalise(elementList[1]);
             inner = "<element-or-wrap>" + elementIcons + "</element-or-wrap>";
-            subText = elementText;
+            subText = translate_text(elementText);
           } else {
             const iconText = matches[1];
             inner = "{" + iconText + "}";
@@ -1961,7 +1957,7 @@ function getPresenceNodeHtml(nodeText, first, nodeIndex, trackType, addEnergyRin
             const cardplay_text = splitOptions[0];
             inner = "<icon class='" + cardplay_text + "'></icon>";
           }
-          subText = "+1 Card Play/Turn";
+          subText = translate_text("+1 Card Play/Turn");
           addEnergyRing = false;
           break;
         }
@@ -2172,123 +2168,128 @@ function IconName(str, iconNum = 1) {
   let subText;
   switch (str) {
     case "presence":
-      subText = "Your Presence";
+      subText = translate_text("Your Presence");
       break;
     case "incarna":
-      subText = "Your Incarna";
+      subText = translate_text("Your Incarna");
       break;
     case "energy":
-      subText = num + " Energy";
+      subText = translate_text("% Energy",num);
       break;
     case "plays":
-      subText = num + " Card Play" + plural;
+      subText = translate_text("% Card Play"+plural, [num]);
       break;
     case "elements":
-      subText = Capitalise(num) + " OR " + Capitalise(txt);
+      subText = translate_text(Capitalise(num)) + translate_text(" OR ") + translate_text(Capitalise(txt));
       break;
     case "gain-power-card":
-      subText = "Gain Power Card";
+      subText = translate_text("Gain Power Card");
       break;
     case "gain-card-play":
-      subText = "+1 Card Play/Turn";
+      subText = translate_text("+1 Card Play/Turn");
       break;
     case "reclaim-all":
-      subText = "Reclaim Cards";
+      subText = translate_text("Reclaim Cards");
       break;
     case "reclaim-one":
-      subText = "Reclaim One";
+      subText = translate_text("Reclaim One");
       break;
     case "reclaim":
-      subText = "Reclaim Cards";
+      subText = translate_text("Reclaim Cards");
       break;
     case "reclaim-half":
-      subText = "Reclaim Half <em>(round up)</em>";
+      subText = tasnslate_text("Reclaim Half")+" <em>("+translate_text("round up")+"</em>)";
       break;
     case "forget-power-card":
-      subText = "Forget Power Card";
+      subText = translate_text("Forget Power Card");
       break;
     case "discard-cards":
-      subText = "Discard 2 Power Cards";
+      subText = translate_text("Discard 2 Power Cards");
       break;
     case "discard-2-cards":
-      subText = "Discard 2 Power Cards";
+      subText = translate_text("Discard 2 Power Cards");
       break;
     case "discard-card":
-      subText = "Discard 1 Power Card";
+      subText = translate_text("Discard 1 Power Card");
       break;
     case "discard-1-card":
-      subText = "Discard 1 Power Card";
+      subText = translate_text("Discard 1 Power Card");
       break;
     case "gain-1-time":
-      subText = "Gain 1 Time";
+      subText = translate_text("Gain 1 Time");
       break;
     case "gain-2-time":
-      subText = "Gain 2 Time";
+      subText = translate_text("Gain 2 Time");
       break;
     case "days-never-were":
-      subText = "Gain Power Card from Days That Never Were";
+      subText = translate_text("Gain Power Card from Days That Never Were");
       break;
     case "destroy-presence":
-      subText = "Destroy 1 of your Presence";
+      subText = translate_text("Destroy 1 of your Presence");
       break;
     case "destroyed-presence":
-      subText = "Destroyed Presence";
+      subText = translate_text("Destroyed Presence");
       if (iconNum > 1) {
-        subText = "up to " + iconNum + " Destroyed Presence";
+        subText = translate_text("up to % Destroyed Presence", [iconNum]);
       }
       break;
     case "make-fast":
-      subText = "One of your Powers may be Fast";
+      subText = translate_text("One of your Powers may be Fast");
       break;
     case "gain-card-pay-2":
-      subText = "Pay 2 Energy to Gain a Power Card";
+      subText = translate_text("Pay 2 Energy to Gain a Power Card");
       break;
     case "ignore-range":
-      subText = "You may ignore Range this turn";
+      subText = translate_text("You may ignore Range this turn");
       break;
     case "star":
-      subText = "Element";
+      subText = translate_text("Element");
       break;
     case "markerplus":
-      subText = "Prepare " + iconNum + " Element Marker" + plural;
+      subText = translate_text("Prepare % Element Marker"+plural, [iconNum]);
       break;
     case "markerminus":
-      subText = "Discard " + iconNum + " Element Marker" + plural;
+      subText = translate_text("Discard % Element Marker"+plural, [iconNum]);
       break;
     case "isolate":
-      subText = "Isolate " + iconNum + " of your Lands";
+      subText = translate_text("Isolate % of your Lands", [iconNum]);
       break;
     case "reclaim-none":
-      subText = "Reclaim None";
+      subText = translate_text("Reclaim None");
       break;
     case "increase-energy":
-      subText = "+" + num + " Energy";
+      subText = translate_text("+% Energy", [num]);
       break;
     case "move-presence":
-      subText = "Move Presence " + num[0];
+      subText = translate_text("Move Presence %", [num[0]]);
       break;
     case "damage-1":
-      subText = "Deal 1 Damage in one of your Lands";
+      subText = translate_text("Deal 1 Damage in one of your Lands");
       break;
     case "damage-2":
-      subText = "Deal 2 Damage in one of your Lands";
+      subText = translate_text("Deal 2 Damage in one of your Lands");
       break;
     case "custom":
       subText = num;
       break;
     case "gain-range":
-      subText = "+" + num[0] + " Range";
+      subText = translate_text("+% Range", [num[0]]);
       if (typeof txt !== "undefined") {
-        subText += " on " + txt;
+        subText += translate_text(" on ") + txt;
       }
       break;
     case "inland":
     case "coastal":
     case "invaders":
-      subText = str.toUpperCase();
+      subText = translate_text(str).toUpperCase();
       break;
     default:
-      subText = iconNum > 1 ? iconNum + " " + Capitalise(str) : Capitalise(str);
+      if(/^custom[0-9]$/.test(str)) {
+        subText = iconNum > 1 ? iconNum + " " + Capitalise(str) : Capitalise(str);
+      }
+      else {
+        subText = iconNum > 1 ? iconNum + " " + translate_text(Capitalise(str)) : translate_text(Capitalise(str));
+      }
   }
 
   return subText;
@@ -3213,7 +3214,7 @@ function parseInnatePowers() {
     : "";
 
   innatePowerContainer.innerHTML =
-    `<section-title${customNameText}>Innate Powers</section-title><innate-power-container>` +
+  `<section-title${customNameText}>`+Capitalise(translate_text("innate powers"))+`</section-title><innate-power-container>` +
     fullHTML +
     "</innate-power-container>";
 }
@@ -3382,7 +3383,7 @@ function writeInnateThreshold(currentThreshold, levelID = "placeholder") {
       if (currentElement.split("(")[1]) {
         const customCost = regExp.exec(currentElement)[1];
         currentThresholdPieces[k] =
-          "<cost-threshold>Cost<icon class='" +
+          "<cost-threshold>"+Capitalise(translate_text("cost"))+"<icon class='" +
           customCost +
           " cost-custom'><value>-" +
           currentNumeral +
@@ -3413,14 +3414,14 @@ function writeInnatePowerInfoBlock(
 
   //Innate Power Speed and Range Header
   newPowerHTML +=
-    "<info-container><info-title><info-title-speed>SPEED</info-title-speed><info-title-range>RANGE</info-title-range>";
+    "<info-container><info-title><info-title-speed>"+translate_text("speed")+"</info-title-speed><info-title-range>"+translate_text("range")+"</info-title-range>";
 
   //Innate Power Target Header
   newPowerHTML +=
     "<info-title-target id='" +
     innatePowerID +
     "targettitle'>" +
-    targetTitle +
+    translate_text(powerTarget.toLowerCase()).toUpperCase() +
     "</info-title-target></info-title><innate-info>";
 
   //Innater Power Speed value
@@ -3475,6 +3476,7 @@ function parseSpecialRules() {
     specialRuleNameList[j].id = "sr" + j + "name";
   }
 
+  specialRuleSection.innerHTML = translate_text("special rules").toUpperCase();
   // Allow custom heading name
   if (specialRules.getAttribute("customname")) {
     console.log("special rule heading detected");

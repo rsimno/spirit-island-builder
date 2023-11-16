@@ -47,9 +47,9 @@ function constructCard(data, cardIndex) {
   ${getElementHtml(data.elements)}
 
   <info-title>
-    <info-title-speed>SPEED</info-title-speed>
-    <info-title-range>RANGE</info-title-range>
-    <info-title-target id='${card.id}targettitle'>${data.targetTitle}</info-title-target>
+    <info-title-speed>${translate_text("speed")}</info-title-speed>
+    <info-title-range>${translate_text("range")}</info-title-range>
+    <info-title-target id='${card.id}targettitle'>${translate_text(data.targetTitle.toLowerCase()).toUpperCase()}</info-title-target>
   </info-title>
 
   <info>

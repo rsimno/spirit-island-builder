@@ -461,3 +461,8 @@ special-rule icon.incarna {
   margin-top: -13px;
   margin-bottom: -10px;
 }
+
+special-rules-track icon.any:lang(de) {
+  background-image: url("../../images/de/board/Any.png");
+}
+  

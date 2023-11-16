@@ -7,6 +7,10 @@ function startMain() {
   var playstyle = document.querySelectorAll("play-style-description")[0];
   var lore = document.querySelectorAll("lore-description")[0];
 
+  document.getElementsByTagName("setup-title")[0].innerText=translate_text("setup");
+  document.getElementsByTagName("play-style-title")[0].innerText=translate_text("play style");
+  document.getElementsByTagName("complexity-title")[0].innerText=translate_text("complexity");
+
   setTimeout(() => {
     resize();
   }, 200);
@@ -55,7 +59,7 @@ function adjustComplexityValue() {
   if (quickComplexity) {
     var quickDescriptor = document.getElementsByTagName("complexity")[0].getAttribute("descriptor");
     var inner = `
-                <complexity-title>COMPLEXITY</complexity-title>
+                <complexity-title>${translate_text("complexity").toUpperCase()}</complexity-title>
                 <complexity-value value="${quickComplexity}" style="width: 300px;">${quickDescriptor}</complexity-value>
                 <red-box></red-box>`;
     document.getElementsByTagName("complexity")[0].innerHTML = inner;
@@ -84,7 +88,7 @@ function createPowerProperties() {
     powerTable.innerHTML = `
                     <tbody><tr class="power-bars">
                         <td>
-                            <div class="summary-of-powers-title">Summary of Powers
+                            <div class="summary-of-powers-title">${translate_text("summary of powers").toUpperCase()}
                         </div></td>
                         <td valign="bottom">
                             <power-bar class="offense" value="${offenseValue}"></power-bar>
@@ -105,19 +109,19 @@ function createPowerProperties() {
                     <tr>
                         <td></td>
                         <td>
-                            <div>OFFENSE</div>
+                            <div>${translate_text("offense").toUpperCase()}</div>
                         </td>
                         <td>
-                            <div>CONTROL</div>
+                            <div>${translate_text("control").toUpperCase()}</div>
                         </td>
                         <td>
-                            <div>FEAR</div>
+                            <div>${translate_text("fear").toUpperCase()}</div>
                         </td>
                         <td>
-                            <div>DEFENSE</div>
+                            <div>${translate_text("defense").toUpperCase()}</div>
                         </td>
                         <td>
-                            <div>UTILITY</div>
+                            <div>${translate_text("utility").toUpperCase()}</div>
                         </td>
                     </tr>
                 </tbody>
@@ -178,7 +182,7 @@ function createPowerProperties() {
     usesCol = document.createElement("td");
     usesCol.rowSpan = countRows; //if we added a note, span that column too
     usesCol.className = "uses-icon";
-    usesCol.append("USES");
+    usesCol.append(translate_text("uses").toUpperCase());
     usesList = uses.split(",");
     iconHolder = document.createElement("uses-icon-holder");
     for (let i = 0; i < usesList.length; i++) {

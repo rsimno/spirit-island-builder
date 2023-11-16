@@ -734,3 +734,8 @@ power-subtitle {
     left: 30px;
   }
 }
+
+.or:lang(de),
+or:lang(de) {
+  background-image: url("../images/de/or.png");
+}

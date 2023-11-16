@@ -35,11 +35,11 @@ function buildBuildCard(template) {
   console.log("stillhealthy=" + stillHealthy);
   //  !== "true" ? false : true;
   let headingText = stillHealthy
-    ? "Still Healthy Island<br><for-now>(for now)</for-now>"
-    : "Blighted Island";
+  ? translate_text("Still Healthy Island")+"<br><for-now>("+translate_text("for now")+"</for-now>"
+  : translate_text("Blighted Island");
   let noBlightText = stillHealthy
-    ? "draw a new Blight Card.<br><b>It comes into play already flipped.</b>"
-    : "players lose.";
+  ? translate_text("draw a new Blight Card.")+"<br><b>"+translate_text("It comes into play already flipped.")+"</b>"
+  : translate_text("players lose.");
   if (stillHealthy) {
     console.log("adding healthy island :" + stillHealthy);
     blightCard.classList.add("still-healthy"); //this doesn't exist yet so we can't add

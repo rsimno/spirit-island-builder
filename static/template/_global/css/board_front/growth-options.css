@@ -1724,3 +1724,17 @@ gain-per-fear icon.animal {
 gain-per-fear icon.water {
   background-image: url(../../images/board/element_simple_water.png);
 }
+
+growth-cost:lang(de)::after {
+  content: "Kosten";
+  left: 0px;
+}
+
+growth-cost.custom:lang(de)::after {
+  content: "Kosten";
+  left: 0px;
+}
+
+growth-cost.nonscaling:lang(de)::after {
+  content: none;
+}
