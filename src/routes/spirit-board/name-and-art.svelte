@@ -143,6 +143,7 @@
       >Click to Remove Unchangeable Text</button>
   </div>
 
+  
   <!-- Language -->
   <label class="label mb-0" for="spiritLanguageInput">Language</label>
   <label class="label is-small " for="spiritLanguageInput"

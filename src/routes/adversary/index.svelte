@@ -60,6 +60,7 @@
     adversaryHeader.setAttribute("name", adversary.nameLossEscalation.name);
     adversaryHeader.setAttribute("base-difficulty", adversary.nameLossEscalation.baseDif);
     adversaryHeader.setAttribute("flag-image", adversary.nameLossEscalation.flagImg);
+    adversaryHeader.setAttribute("adversary-language", adversary.adversaryLanguage);
     fragment.append(adversaryHeader);
 
     //Set Loss Condition
@@ -114,6 +115,7 @@
       adversaryHeader.getAttribute("flag-image"),
       baseURI
     );
+    adversary.adversaryLanguage = adversaryHeader.getAttribute("adversary-language");
 
     //Load Loss Condition
     const lossConditionHeader = htmlElement.querySelectorAll("loss-condition")[0];

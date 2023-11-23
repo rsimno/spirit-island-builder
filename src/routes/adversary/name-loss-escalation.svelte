@@ -111,4 +111,26 @@
       title="Flag Art"
       bind:imageURL={adversary.nameLossEscalation.flagImg} />
   </div>
+
+
+  <!-- Language -->
+  <div class="field">
+    <label class="label is-flex is-justify-content-space-between" for="LanguageInput"
+      >Language
+    </label>
+    <div class="field is-flex is-small mb-0">
+      <div class="control" style="width:100%">
+        <input
+          id="LanguageInput"
+          class="input"
+          type="text"
+          placeholder="en/de"
+          on:keyup={nextNode}
+          on:focus={selectNode}
+          bind:value={adversary.adversaryLanguage} />
+      </div>
+    </div>
+  </div>
+
+
 </Section>

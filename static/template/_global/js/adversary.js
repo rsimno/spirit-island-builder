@@ -22,12 +22,21 @@ function resize() {
 }
 
 function buildAdversary(quickAdversary) {
+
+  adversaryLanguage = String(quickAdversary.getAttribute("adversary-language"));
+  // ### ??????
+  // if(!adversaryLanguage || adversaryLanguage=="") {
+  //   adversaryLanguage="en";
+  // }
+  // console.log("###"+adversaryLanguage);
+  document.documentElement.lang=adversaryLanguage;
+
   adversaryName = quickAdversary.getAttribute("name");
   flagImage = quickAdversary.getAttribute("flag-image");
   baseDifficulty = quickAdversary.getAttribute("base-difficulty");
   let baseDifficultyText = "";
   if (baseDifficulty) {
-    baseDifficultyText = `<adversary-base-dif>BASE DIFFICULTY ${baseDifficulty}</adversary-base-dif>`;
+    baseDifficultyText = `<adversary-base-dif>${translate_text("base difficulty").toUpperCase()} ${baseDifficulty}</adversary-base-dif>`;
   }
 
   lossCondition = quickAdversary.querySelectorAll("loss-condition")[0];
@@ -45,13 +54,13 @@ function buildAdversary(quickAdversary) {
     ${baseDifficultyText}
     <top-info>
       <loss-condition>
-        <section-title>Additional Loss Condition</section-title>
+        <section-title>${translate_text("Additional Loss Condition")}</section-title>
         <div>
           <strong>${lossConditionTitle}</strong>${lossCondition.getAttribute("rules")}
         </div>
       </loss-condition>
       <escalation>
-        <section-title>Escalation <icon class="escalation"></icon></section-title>
+        <section-title>${translate_text("Escalation")} <icon class="escalation"></icon></section-title>
         <div>
           <strong>${escalation.getAttribute("name")}:</strong> ${escalation.getAttribute("rules")}
         </div>
@@ -59,9 +68,9 @@ function buildAdversary(quickAdversary) {
     </top-info>
     <adversary-levels>
       <header>
-        <header-level>Level<br>(Difficulty)</header-level>
-        <div>Fear Cards</div>
-        <div>Game Effects <span class="cumulative">(cumulative)</span></div>
+        <header-level>${translate_text("Level")}<br>(${translate_text("Difficulty")})</header-level>
+        <div>${translate_text("Fear Cards")}</div>
+        <div>${translate_text("Game Effects")} <span class="cumulative">(${translate_text("cumulative")})</span></div>
       </header>`;
 
   html += buildLevel(quickAdversary.querySelectorAll("level-1")[0]);
@@ -72,7 +81,6 @@ function buildAdversary(quickAdversary) {
   html += buildLevel(quickAdversary.querySelectorAll("level-6")[0]);
 
   html += `</adversary-levels><created-with>spiritislandbuilder.com</created-with><custom-meeple></custom-meeple>`;
-
   return html;
 }
 
